@@ -33,7 +33,7 @@ const Home = () => {
     const [state, setLocale] = useState(initialState);
 
     useEffect(() => {
-        fetch('https://ana.dsh-agency.com/ipinfo/me?geo=1').then(resp => {
+        fetch('').then(resp => {
             if (resp.ok) {
                 return resp.json();
             }
