@@ -1,6 +1,7 @@
-import React, {useEffect } from 'react';
-import {connect} from 'react-redux';
-import {fetchListIfNeeded, listItemRemove} from './../redux/actions';
+import React, { useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchListIfNeeded, listItemRemove } from './../redux/actions';
+import PropTypes from 'prop-types';
 
 const ListWrapper = (props) => {
   const { isFetching, error } = props;
@@ -17,7 +18,6 @@ const ListWrapper = (props) => {
 };
 
 const ListItem = (props) => {
-
   const { Name, Price, Location, index, } = props;
 
   return <li>
@@ -26,16 +26,19 @@ const ListItem = (props) => {
   </li>
 };
 
-const List = (props) => {
+const List = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    props.fetchListIfNeeded();
-  }, []);
+    dispatch(fetchListIfNeeded())
+  }, [dispatch]);
 
-  const onClickRemove = (index) => {
-    props.listItemRemove(index);
-  };
+  const state = useSelector((state) => state.reducer)
+  const { isFetching, data, error } = state;
 
-  const {isFetching, data, error} = props;
+  const onClickRemove = useCallback((index) => {
+    dispatch(listItemRemove(index))
+  }, [dispatch])
 
   return (
     <ListWrapper
@@ -56,15 +59,4 @@ const List = (props) => {
   )
 };
 
-export default connect((state, ownProps) => {
-  const reducer = state.reducer;
-
-  return {
-    ...reducer
-  }
-}, (dispatch, ownProps) => {
-  return {
-    fetchListIfNeeded: () => dispatch(fetchListIfNeeded()),
-    listItemRemove: (index) => dispatch(listItemRemove(index))
-  }
-})(List);
+export default List;

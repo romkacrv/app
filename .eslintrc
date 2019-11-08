@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+
+  },
+  "plugins": [
+    "react",
+    "react-hooks"
+  ],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "react/boolean-prop-naming": [2, {
+      "validateNested": true
+    }],
+    "react/prop-types": 2,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 1
+  }
+}
